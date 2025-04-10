@@ -1,0 +1,185 @@
+1)
+mu = 1200;
+sigma = 250;
+n = 60;
+x_bar = 1250;
+z = (x_bar - mu) / (sigma / sqrt(n));
+prob = 1 - normcdf(z)
+
+2)
+mu = 1000;
+sigma = 125;
+z_alpha = norminv(0.90);
+delta = 2.5;
+n_min = (z_alpha * sigma / delta)^2
+
+3)
+lambda = 0.03;
+n = 50;
+Sn_mean = n * lambda;
+Sn_std = sqrt(n * lambda);
+z = (3 - Sn_mean) / Sn_std;
+prob_Sn = 1 - normcdf(z)
+
+4)
+mu = 70;
+sigma = 12;
+n = 36;
+z1 = (75 - mu) / (sigma / sqrt(n));
+prob_less_75 = normcdf(z1)
+max_weight = 2700;
+z2 = (max_weight / n - mu) / (sigma / sqrt(n));
+prob_exceed_weight = 1 - normcdf(z2)
+
+5)
+syms s2 sigma2 n;
+E_s2 = (n-1) * sigma2 / n;
+pretty(E_s2)
+
+6)
+syms X n p;
+E_X_n = X / n;
+pretty(E_X_n)
+
+7)
+syms x theta;
+f = theta * x^(-theta - 1);
+L = log(f);
+
+8)
+data = [10, 20, 25, 35, 30];
+a_hat = (2/3) * mean(data)
+disp(a_hat)
+MLE = solve(diff(L, theta) == 0, theta);
+disp(MLE)
+
+14)
+mu = 98;
+sigma = 2;
+n = 9;
+z = norminv(0.975);
+lower = mu - z * (sigma / sqrt(n));
+upper = mu + z * (sigma / sqrt(n));
+disp([lower upper])
+
+15)
+xbar = 1.5045;
+sigma = 0.01;
+n = 10;
+z = norminv(0.995);
+ci = xbar + [-1, 1] * z * (sigma / sqrt(n));
+disp(ci)
+
+16)
+conf_level = normcdf(2.14) - normcdf(-2.14);
+disp(conf_level)
+
+17)
+s = 0.83;
+n = 31;
+alpha = 0.02;
+c1 = chi2inv(alpha/2, n-1);
+c2 = chi2inv(1 - alpha/2, n-1);
+lower = sqrt((n-1)*s^2 / c2);
+upper = sqrt((n-1)*s^2 / c1);
+disp([lower upper])
+
+18)
+data = [11 1 5 3 2 23 37 5];
+n = length(data);
+xbar = mean(data);
+s = std(data, 1); % population std
+t = tinv(0.975, n-1);
+mu_ci = xbar + [-1, 1] * t * (std(data)/sqrt(n));
+
+c1 = chi2inv(0.025, n-1);
+c2 = chi2inv(0.975, n-1);
+var_ci = [(n-1)*s^2/c2, (n-1)*s^2/c1];
+disp(mu_ci)
+disp(sqrt(var_ci)) % std CI
+
+19)
+xbar = 2.75;
+s = sqrt(0.0144);
+n = 6;
+t = tinv(0.975, n-1);
+ci = xbar + [-1, 1] * t * (s/sqrt(n));
+disp(ci)
+
+20)
+data = [91.6, 88.75, 90.8, 89.95, 91.3];
+xbar = mean(data);
+sigma = 3;
+n = length(data);
+z = norminv(0.975);
+ci = xbar + [-1, 1] * z * (sigma/sqrt(n));
+disp(ci)
+
+21)
+sigma = sqrt(6.91);
+n = 40;
+xbar = 28.75;
+z = norminv(0.995);
+ci = xbar + [-1, 1] * z * (sigma / sqrt(n));
+disp(ci)
+
+22)
+n = 60;
+xbar = 11.09;
+sigma = 0.72;
+z1 = norminv(0.975);
+z2 = norminv(0.995);
+ci95 = xbar + [-1, 1] * z1 * (sigma/sqrt(n));
+ci99 = xbar + [-1, 1] * z2 * (sigma/sqrt(n));
+disp(ci95)
+disp(ci99)
+
+23)
+data = [9.8, 10.2, 10.4, 9.8, 10.0, 10.2, 9.6];
+n = length(data);
+xbar = mean(data);
+s = std(data);
+t = tinv(0.975, n-1);
+ci = xbar + [-1, 1] * t * (s / sqrt(n));
+disp(ci)
+
+24)
+xbar = 3.42;
+s = 0.68;
+n = 16;
+t = tinv(0.995, n-1);
+ci = xbar + [-1, 1] * t * (s / sqrt(n));
+disp(ci)
+
+25)
+complan = [9 11 13 11 15 9 12 14];
+horlicks = [10 12 10 14 9 8 10];
+
+% (a) Horlicks mean CI
+n = length(horlicks);
+xbar = mean(horlicks);
+s = std(horlicks);
+t = tinv(0.975, n-1);
+ci_mu_h = xbar + [-1, 1] * t * (s/sqrt(n));
+
+% (b) Complan mean CI
+n2 = length(complan);
+xbar2 = mean(complan);
+s2 = std(complan);
+t2 = tinv(0.975, n2-1);
+ci_mu_c = xbar2 + [-1, 1] * t2 * (s2/sqrt(n2));
+
+% (c) Horlicks variance CI
+c1 = chi2inv(0.025, n-1);
+c2 = chi2inv(0.975, n-1);
+var_ci_h = [(n-1)*s^2/c2, (n-1)*s^2/c1];
+
+% (d) Complan variance CI
+c1 = chi2inv(0.025, n2-1);
+c2 = chi2inv(0.975, n2-1);
+var_ci_c = [(n2-1)*s2^2/c2, (n2-1)*s2^2/c1];
+
+disp(ci_mu_h)
+disp(ci_mu_c)
+disp(var_ci_h)
+disp(var_ci_c)
